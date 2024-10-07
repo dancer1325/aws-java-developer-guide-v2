@@ -35,9 +35,9 @@
   dynamoDbClient.putItem(request -> request.tableName(TABLE))
   ```
 
-For more details about the new features and to see specific code examples, refer to the other sections of this guide\.
-+  [Quick Start](get-started.md) 
-+  [Setting up](setup.md) 
-+  [Code examples for the AWS SDK for Java 2\.x](examples.md) 
-+  [Use the SDK](using.md) 
-+  [Security for the AWS SDK for Java](security.md) 
+* For more details
+  * [Quick Start](get-started.md) 
+  * [Setting up](setup.md) 
+  * [Code examples for the AWS SDK for Java 2\.x](examples.md) 
+  * [Use the SDK](using.md) 
+  * [Security for the AWS SDK for Java](security.md) 
