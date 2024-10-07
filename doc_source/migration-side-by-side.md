@@ -1,15 +1,13 @@
 # Use the SDK for Java 1\.x and 2\.x side\-by\-side<a name="migration-side-by-side"></a>
 
-You can use both versions of the AWS SDK for Java in your projects\.
-
-The following shows an example of the `pom.xml` file for a project that uses Amazon S3 from version 1\.x and DynamoDB from version 2\.16\.1\.
-
-**Example of POM**  
-This example shows a `pom.xml` file entry for a project that uses both 1\.x and 2\.x versions of the SDK\.  
+* BOTH versions of the AWS SDK for Java | your project, can be used
+* _Example:_ `pom.xml` for a project / uses Amazon S3 from version 1\.x & DynamoDB from version 2\.16\.1
+  
 
 ```
 <dependencyManagement>
     <dependencies>
+        // v1 for aws-java-sdk-bom
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-bom</artifactId>
@@ -17,6 +15,7 @@ This example shows a `pom.xml` file entry for a project that uses both 1\.x and 
             <type>pom</type>
             <scope>import</scope>
         </dependency>
+        // v2 for bom
         <dependency>
           <groupId>software.amazon.awssdk</groupId>
           <artifactId>bom</artifactId>
@@ -28,10 +27,12 @@ This example shows a `pom.xml` file entry for a project that uses both 1\.x and 
 </dependencyManagement>
 
 <dependencies>
+    // v1 for S3
     <dependency>
       <groupId>com.amazonaws</groupId>
       <artifactId>aws-java-sdk-s3</artifactId>
     </dependency>
+    // v1 for DynamoDB
     <dependency>
       <groupId>software.amazon.awssdk</groupId>
       <artifactId>dynamodb</artifactId>
