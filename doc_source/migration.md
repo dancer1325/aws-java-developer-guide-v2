@@ -1,6 +1,15 @@
 # Migrate from version 1\.x to 2\.x of the AWS SDK for Java<a name="migration"></a>
 
-The AWS SDK for Java 2\.x is a major rewrite of the 1\.x code base built on top of Java 8\+\. It includes many updates, such as improved consistency, ease of use, and strongly enforced immutability\. This section describes the major features that are new in version 2\.x, and provides guidance on how to migrate your code to version 2\.x from 1\.x\.
+* AWS SDK for Java 2\.x
+  * MAJOR rewrite of the 1\.x code base
+  * built | Java 8\+\
+  * updates
+    * improved consistency,
+    * ease of use
+    * strongly enforce immutability
+* goal
+  * describes the major NEW features about version 2\.x,
+  * how to migrate from 1\.x\ to version 2\.x 
 
 **Topics**
 + [What’s new](#migration-whats-new)
@@ -8,12 +17,19 @@ The AWS SDK for Java 2\.x is a major rewrite of the 1\.x code base built on top 
 + [Use the SDK for Java 1\.x and 2\.x side\-by\-side](migration-side-by-side.md)
 
 ## What’s new<a name="migration-whats-new"></a>
-+ You can configure your own HTTP clients\. See [HTTP transport configuration](http-configuration.md)\.
-+ Async clients are now truly nonblocking and return `CompletableFuture` objects\. See [Asynchronous programming](asynchronous.md)\.
-+ Operations that return multiple pages have autopaginated responses\. This way, you can focus your code on what to do with the response, without the need to check for and get subsequent pages\. See [Pagination](pagination.md)\. 
-+ SDK start time performance for AWS Lambda functions is improved\. See [SDK start time performance improvements](lambda-optimize-starttime.md)\. 
-+ Version 2\.x supports a new shorthand method for creating requests\.  
-**Example**  
+
+* own HTTP clients can be configured
+  * [HTTP transport configuration](http-configuration.md)
+* Async clients
+  * NOW truly nonblocking
+  * return `CompletableFuture` objects
+  * [Asynchronous programming](asynchronous.md)\.
+* Operations / return multiple pages -> have autopaginated responses
+  * -> you can focus in your code 
+  * [Pagination](pagination.md) 
+* [SDK start time performance improvements](lambda-optimize-starttime.md) 
+* new shorthand method -- for -- creating requests
+  * _Example:_  
 
   ```
   dynamoDbClient.putItem(request -> request.tableName(TABLE))
