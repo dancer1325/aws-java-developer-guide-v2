@@ -1,168 +1,171 @@
 # What's different between the AWS SDK for Java 1\.x and 2\.x<a name="migration-whats-different"></a>
 
-This section describes the main changes to be aware of when converting an application from using the AWS SDK for Java version 1\.x to version 2\.x\.
-
 ## Package name change<a name="mig-diff-package-name-change"></a>
 
-A noticable change from the the SDK for Java 1\.x to the SDK for Java 2\.x is the package name change\. Package names begin with `software.amazon.awssdk` in SDK 2\.x, whereas the SDK 1\.x uses `com.amazonaws`\.
-
-These same names differentiate Maven artifacts from SDK 1\.x to SDK 2\.x\. Maven artifacts for the SDK 2\.x use the `software.amazon.awssdk` groupId, whereas the SDK 1\.x uses the `com.amazonaws` groupId\.
-
-There are a few times when your code requires a `com.amazonaws` dependency for a project that otherwise uses only SDK 2\.x artifacts\. One example of this is when you work with server\-side AWS Lambda\. This was shown in the [Set up an Apache Maven project](setup-project-maven.md#modules-dependencies) section earlier in this guide\.
-
-**Note**  
-Several package names in the SDK 1\.x contain `v2`\. The use of `v2` in this case usually means that code in the package is targted to work with version 2 of the service\.   
-Since the full package name begins with `com.amazonaws`, these are SDK 1\.x components\. Examples of these package names in the SDK 1\.x are:   
-`com.amazonaws.services.dynamodbv2`
-`com.amazonaws.retry.v2`
-`com.amazonaws.services.apigatewayv2`
-`com.amazonaws.services.simpleemailv2`
+* package name change
+  * `com.amazonaws` -- must be replaced with -- `software.amazon.awssdk`
+    * except to. work with server\-side AWS Lambda -- check [Set up an Apache Maven project](setup-project-maven.md#modules-dependencies)   
+  * -> Maven's groupId has changed
+* package names | SDK 1\.x / name `*.v2*` == code can work with SDK 2\.x 
+  * _Example:_ `com.amazonaws.services.dynamodbv2`, `com.amazonaws.retry.v2`, `com.amazonaws.services.apigatewayv2`, `com.amazonaws.services.simpleemailv2`
 
 ## High\-level libraries<a name="highlevel-libraries"></a>
 
-High\-level libraries, such as Amazon SQS Client\-side Buffering, are not yet available in version 2\.x\. For a list of libraries that have been released, see the AWS SDK for Java 2\.x [changelog](https://github.com/aws/aws-sdk-java-v2/blob/master/docs/LaunchChangelog.md#7-high-level-libraries)\.
-
-If your application depends on libraries that aren't released in version 2\.x, configure your `pom.xml` file to use both 1\.x and 2\.x\. For more information, see [Using both SDKs side\-by\-side](migration-side-by-side.md)\.
+* 👁️SOME high\-level libraries are NOT yet available | version 2\.x\ 👁️
+  * [changelog to check libraries release](https://github.com/aws/aws-sdk-java-v2/blob/master/docs/LaunchChangelog.md#7-high-level-libraries)
+  * _Example:_ Amazon SQS Client\-side Buffering
+  * if your application -- depends on -- these libraries -> configure your `pom.xml` to use both 1\.x and 2\.x\
+    * [Using both SDKs side\-by\-side](migration-side-by-side.md)
 
 ## Adding version 2\.x to your project<a name="adding-v2"></a>
 
-Maven is the recommended way to manage dependencies when using the AWS SDK for Java 2\.x\. To add version 2 components to your project, update your `pom.xml` file with a dependency on the SDK\. 
+* Maven is the recommended way
+  * _Example:_  
 
-**Example**  
-
-```
-<dependencyManagement>
+    ```
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+              <groupId>software.amazon.awssdk</groupId>
+              <artifactId>bom</artifactId>
+              <version>2.16.1</version>
+              <type>pom</type>
+              <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
     <dependencies>
         <dependency>
           <groupId>software.amazon.awssdk</groupId>
-          <artifactId>bom</artifactId>
-          <version>2.16.1</version>
-          <type>pom</type>
-          <scope>import</scope>
+          <artifactId>dynamodb</artifactId>
         </dependency>
     </dependencies>
-</dependencyManagement>
-
-<dependencies>
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>dynamodb</artifactId>
-    </dependency>
-</dependencies>
-```
+    ```
 
 ## Client builders<a name="client-builder"></a>
 
-You must create all clients using the client builder method\. Constructors are no longer available\.
+* way to create ALL clients
+  * Reason: 🧠Constructors are NO longer available 🧠
 
-**Example of creating a client in version 1\.x**  
+* _Example:_ 
+  * | version 1\.x  
 
-```
-AmazonDynamoDB ddbClient = AmazonDynamoDBClientBuilder.defaultClient();
-AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient();
-```
+    ```
+    AmazonDynamoDB ddbClient = AmazonDynamoDBClientBuilder.defaultClient();
+    AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient();
+    ```
 
-**Example of creating a client in version 2\.x**  
+  * | version 2\.x  
 
-```
-DynamoDbClient ddbClient = DynamoDbClient.create();
-DynamoDbClient ddbClient = DynamoDbClient.builder().build();
-```
+    ```
+    DynamoDbClient ddbClient = DynamoDbClient.create();
+    DynamoDbClient ddbClient = DynamoDbClient.builder().build();
+    ```
 
 ## Client Configuration<a name="client-configuration"></a>
 
-In 1\.x, SDK client configuration was modified by setting a `ClientConfiguration` instance on the client or client builder\. In version 2\.x, the client configuration is split into separate configuration classes\. With the separate configuration classes, you can configure different HTTP clients for async versus synchronous clients but still use the same `ClientOverrideConfiguration` class\.
+* | 1\.x
+  * `ClientConfiguration`
+* | 2\.x
+  * client configuration -- is split into -- SEPARATE configuration classes
+    * -> different HTTP clients (_Example:_ async, synchronous clients) can use SAME `ClientOverrideConfiguration` class
+* _Examples:_
+  * | 1\.x  
 
-**Example of client configuration in version 1\.x**  
+    ```
+    AmazonDynamoDBClientBuilder.standard()
+    .withClientConfiguration(clientConfiguration)
+    .build()
+    ```
 
-```
-AmazonDynamoDBClientBuilder.standard()
-.withClientConfiguration(clientConfiguration)
-.build()
-```
+  * synchronous client configuration | version 2\.x  
 
-**Example of synchronous client configuration in version 2\.x**  
+    ```
+    ProxyConfiguration.Builder proxyConfig = ProxyConfiguration.builder();
+    
+    ApacheHttpClient.Builder httpClientBuilder =
+            ApacheHttpClient.builder()
+                            .proxyConfiguration(proxyConfig.build());
+    
+    ClientOverrideConfiguration.Builder overrideConfig =
+            ClientOverrideConfiguration.builder();
+    
+    DynamoDbClient client =
+            DynamoDbClient.builder()
+                          .httpClientBuilder(httpClientBuilder)
+                          .overrideConfiguration(overrideConfig.build())
+                          .build();
+    ```
 
-```
-ProxyConfiguration.Builder proxyConfig = ProxyConfiguration.builder();
+  * asynchronous client configuration | version 2\.x  
 
-ApacheHttpClient.Builder httpClientBuilder =
-        ApacheHttpClient.builder()
-                        .proxyConfiguration(proxyConfig.build());
-
-ClientOverrideConfiguration.Builder overrideConfig =
-        ClientOverrideConfiguration.builder();
-
-DynamoDbClient client =
-        DynamoDbClient.builder()
-                      .httpClientBuilder(httpClientBuilder)
-                      .overrideConfiguration(overrideConfig.build())
-                      .build();
-```
-
-**Example of asynchronous client configuration in version 2\.x**  
-
-```
-NettyNioAsyncHttpClient.Builder httpClientBuilder =
-        NettyNioAsyncHttpClient.builder();
-
-ClientOverrideConfiguration.Builder overrideConfig =
-        ClientOverrideConfiguration.builder();
-
-ClientAsyncConfiguration.Builder asyncConfig =
-        ClientAsyncConfiguration.builder();
-
-DynamoDbAsyncClient client =
-        DynamoDbAsyncClient.builder()
-                           .httpClientBuilder(httpClientBuilder)
-                           .overrideConfiguration(overrideConfig.build())
-                           .asyncConfiguration(asyncConfig.build())
-                           .build();
-```
-
-For a complete mapping of client configuration methods between 1\.x and 2\.x, see the AWS SDK for Java 2\.x [changelog](https://github.com/aws/aws-sdk-java-v2/blob/master/docs/LaunchChangelog.md#13-sdk-client-configuration)\.
+    ```
+    NettyNioAsyncHttpClient.Builder httpClientBuilder =
+            NettyNioAsyncHttpClient.builder();
+    
+    ClientOverrideConfiguration.Builder overrideConfig =
+            ClientOverrideConfiguration.builder();
+    
+    ClientAsyncConfiguration.Builder asyncConfig =
+            ClientAsyncConfiguration.builder();
+    
+    DynamoDbAsyncClient client =
+            DynamoDbAsyncClient.builder()
+                               .httpClientBuilder(httpClientBuilder)
+                               .overrideConfiguration(overrideConfig.build())
+                               .asyncConfiguration(asyncConfig.build())
+                               .build();
+    ```
+* check [changelog with the mapping](https://github.com/aws/aws-sdk-java-v2/blob/master/docs/LaunchChangelog.md#13-sdk-client-configuration)
 
 ## Setter Methods<a name="setter-methods"></a>
 
-In the AWS SDK for Java 2\.x, setter method names don’t include the `set` or `with` prefix\. For example, `*.withEndpoint()` is now `*.endpoint()`\.
+* | 2\.x, setter method does NOT include prefixes
+  * `set`
+  * `with`
+    * _Example:_ `*.withEndpoint()` -- is replaced with -- `*.endpoint()`
+* _Example:_
+  * | 1\.x  
 
-**Example of using setting methods in 1\.x**  
+    ```
+    AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
+                    .withRegion("us-east-1")
+                    .build();
+    ```
 
-```
-AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
-        		.withRegion("us-east-1")
-        		.build();
-```
+  * | 2\.x  
 
-**Example of using setting methods in 2\.x**  
-
-```
-DynamoDbClient client = DynamoDbClient.builder()
-        		.region(Region.US_EAST_1)
-        		.build();
-```
+    ```
+    DynamoDbClient client = DynamoDbClient.builder()
+                    .region(Region.US_EAST_1)
+                    .build();
+    ```
 
 ## Class Names<a name="class-names"></a>
 
-All client class names are now fully camel cased and no longer prefixed by `Amazon`\. These changes are aligned with names used in the AWS CLI\. For a full list of client name changes, see the AWS SDK for Java 2\.x [changelog](https://github.com/aws/aws-sdk-java-v2/blob/master/docs/LaunchChangelog.md#63-client-names)\.
+* ALL client class names -- are NOW aligned with -- names / used | AWS CLI
+  * fully camel cased
+  * NO longer prefixed by `Amazon`
+  * [full list of client name changes](https://github.com/aws/aws-sdk-java-v2/blob/master/docs/LaunchChangelog.md#63-client-names)
+* _Examples:_
+  * | 1\.x  
 
-**Example of class names in 1\.x**  
+    ```
+    AmazonDynamoDB
+    AWSACMPCAAsyncClient
+    ```
 
-```
-AmazonDynamoDB
-AWSACMPCAAsyncClient
-```
+  * | 2\.x**  
 
-**Example of class names in 2\.x**  
-
-```
-DynamoDbClient
-AcmAsyncClient
-```
+    ```
+    DynamoDbClient
+    AcmAsyncClient
+    ```
 
 ## Region class<a name="region-class"></a>
 
-The AWS SDK for Java version 1\.x had multiple `Region` and `Regions` classes, both in the core package and in many of the service packages\. `Region` and `Regions` classes in version 2\.x are now collapsed into one core class, `Region`\.
+* TODO: The AWS SDK for Java version 1\.x had multiple `Region` and `Regions` classes, both in the core package and in many of the service packages\. `Region` and `Regions` classes in version 2\.x are now collapsed into one core class, `Region`\.
 
 **Example Region and Regions classes in 1\.x**  
 
