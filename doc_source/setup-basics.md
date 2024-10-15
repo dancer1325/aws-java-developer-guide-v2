@@ -2,20 +2,21 @@
 
 ## Overview<a name="setup-overview"></a>
 
-To successfully develop applications that access AWS services using the AWS SDK for Java, the following conditions are required:
-+ You must be able to [sign in to the AWS access portal](#setup-awsaccount) available in the AWS IAM Identity Center \(successor to AWS Single Sign\-On\)\.
-+ The [permissions of the IAM role](https://docs.aws.amazon.com/singlesignon/latest/userguide/permissionsetsconcept.html) configured for the SDK must allow access to the AWS services that your application requires\. The permissions associated with the **PowerUserAccess** AWS managed policy are sufficient for most development needs\.
-+ A development environment with the following elements:
-  + [Shared configuration files](https://docs.aws.amazon.com/sdkref/latest/guide/file-format.html) that are set up in at least one of the following ways:
-    + The `config` file contains [IAM Identity Center single sign\-on settings](#setup-credentials) so that the SDK can get AWS credentials\.
-    + The `credentials` file contains temporary credentials\.
-  + An [installation of Java 8](#setup-envtools) or later\.
-  + A [build automation tool ](#setup-envtools)such as [Maven](https://maven.apache.org/download.cgi) or [Gradle](https://gradle.org/install/)\.
-  + A text editor to work with code\.
-  + \(Optional, but recommended\) An IDE \(integrated development environment\) such as [IntelliJ IDEA](https://www.jetbrains.com/idea/download/#section=windows), [Eclipse](https://www.eclipse.org/ide/), or [NetBeans](https://netbeans.org/downloads/)\.
+* conditions required to successfully develop applications / access AWS services -- via -- AWS SDK for Java:
+  * [sign in to the AWS access portal](#setup-awsaccount) / available | AWS IAM Identity Center (==successor to AWS Single Sign\-On\)
+  * TODO: [permissions of the IAM role](https://docs.aws.amazon.com/singlesignon/latest/userguide/permissionsetsconcept.html) / configured for the SDK -> MUST allow access to the AWS services / required by your application
+    * permissions / associated with the **PowerUserAccess** AWS managed policy -> are sufficient for MOST development needs
+  * A development environment with the following elements:
+    + [Shared configuration files](https://docs.aws.amazon.com/sdkref/latest/guide/file-format.html) that are set up in at least one of the following ways:
+      + The `config` file contains [IAM Identity Center single sign\-on settings](#setup-credentials) so that the SDK can get AWS credentials\.
+      + The `credentials` file contains temporary credentials\.
+    + An [installation of Java 8](#setup-envtools) or later\.
+    + A [build automation tool ](#setup-envtools)such as [Maven](https://maven.apache.org/download.cgi) or [Gradle](https://gradle.org/install/)\.
+    + A text editor to work with code\.
+    + \(Optional, but recommended\) An IDE \(integrated development environment\) such as [IntelliJ IDEA](https://www.jetbrains.com/idea/download/#section=windows), [Eclipse](https://www.eclipse.org/ide/), or [NetBeans](https://netbeans.org/downloads/)\.
 
-    When you use an IDE, you can also integrate AWS Toolkits to more easily work with AWS services\. The [AWS Toolkit for IntelliJ](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html) and [AWS Toolkit for Eclipse](https://docs.aws.amazon.com/toolkit-for-eclipse/v1/user-guide/welcome.html) are two toolkits that you can use for Java development\.
-+ An active AWS access portal session when you are ready to run your application\. You use the AWS Command Line Interface to [initiate the sign\-in process](#setup-login-sso) to IAM Identity Center's AWS access portal\.
+      When you use an IDE, you can also integrate AWS Toolkits to more easily work with AWS services\. The [AWS Toolkit for IntelliJ](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html) and [AWS Toolkit for Eclipse](https://docs.aws.amazon.com/toolkit-for-eclipse/v1/user-guide/welcome.html) are two toolkits that you can use for Java development\.
+  * + An active AWS access portal session when you are ready to run your application\. You use the AWS Command Line Interface to [initiate the sign\-in process](#setup-login-sso) to IAM Identity Center's AWS access portal\.
 
 **Important**  
 The instructions in this setup section assume that you or organization uses IAM Identity Center\. If your organization uses an external identity provider that works independently of IAM Identity Center, find out how you can get temporary credentials for the SDK for Java to use\. Follow [these instructions](credentials-temporary.md#credentials-temporary-from-portal) to add temporary credentials to the `~/.aws/credentials` file\.  
@@ -23,7 +24,12 @@ If your identity provider adds temporary credentials automatically to the `~/.aw
 
 ## Sign\-in ability to the AWS access portal<a name="setup-awsaccount"></a>
 
-The AWS access portal is the web location where you manually sign in to the IAM Identity Center\. The format of the URL is `d-xxxxxxxxxx.awsapps.com/start`or `your_subdomain.awsapps.com/start`\. If you are not familiar with the AWS access portal, follow the guidance for account access in the [IAM Identity Center authentication](https://docs.aws.amazon.com/sdkref/latest/guide/access-sso.html) topic in the AWS SDKs and Tools Reference Guide\.
+* AWS access portal
+  * == web location / you manually sign in -- to the -- IAM Identity Center
+    * format of the URL
+      * `d-xxxxxxxxxx.awsapps.com/start` or
+      * `your_subdomain.awsapps.com/start`
+  * [IAM Identity Center authentication](https://docs.aws.amazon.com/sdkref/latest/guide/access-sso.html)
 
 ## Set up single sign\-on access for the SDK<a name="setup-credentials"></a>
 
