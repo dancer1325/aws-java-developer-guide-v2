@@ -43,27 +43,26 @@ If your identity provider adds temporary credentials automatically to the `~/.aw
   * AWS CLI
     * uses
       * start an [AWS access portal session](#setup-login-sso) | before you run your application
-  * TODO: An `~/.aws/config` file that contains a [default profile](https://docs.aws.amazon.com/sdkref/latest/guide/file-format.html#file-format-profile)\. The SDK for Java uses the profile's SSO token provider configuration to acquire credentials before sending requests to AWS\. The `sso_role_name` value, which is an IAM role connected to an IAM Identity Center permission set, should allow access to the AWS services used in your application\.
-
-  The following sample `config` file shows a default profile set up with SSO token provider configuration\. The profile's `sso_session` setting refers to the named `sso-session` section\. The `sso-session` section contains settings to initiate an AWS access portal session\.
+  * `~/.aws/config` / contains a [default profile](https://docs.aws.amazon.com/sdkref/latest/guide/file-format.html#file-format-profile)
+    * SDK for Java -- via the profile's SSO token provider configuration, acquire -- credentials | before sending requests to AWS
+      * `sso_role_name` value / is | IAM role -- connected to an -- IAM Identity Center permission set -> should allow access to the AWS services / used | your application
+      * check [SSO token provider configuration](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html#sso-token-config)
+    * _Example:_ sample `config` file shows a default profile + SSO token provider configuration 
 
   ```
   [default]
-  sso_session = my-sso
+  sso_session = my-sso      # refers to the next section
   sso_account_id = 111122223333
   sso_role_name = SampleRole
   region = us-east-1
   output = json
-  
+
+  # section -- to initiate an -- AWS access portal session
   [sso-session my-sso]
   sso_region = us-east-1
   sso_start_url = https://provided-domain.awsapps.com/start
   sso_registration_scopes = sso:account:access
   ```
-
-For more details about the settings used in the SSO token provider configuration, see [SSO token provider configuration](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html#sso-token-config) in the AWS SDKs and Tools Reference Guide\.
-
-If your development environment is not set up for programmatic access as previously shown, follow [Step 2 in the SDKs Reference Guide](https://docs.aws.amazon.com/sdkref/latest/guide/access-sso.html#idcGettingStarted)\.
 
 ## Sign in using the AWS CLI<a name="setup-login-sso"></a>
 
