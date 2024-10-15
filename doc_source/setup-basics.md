@@ -67,26 +67,28 @@ If your development environment is not set up for programmatic access as previou
 
 ## Sign in using the AWS CLI<a name="setup-login-sso"></a>
 
-Before running an application that accesses AWS services, you need an active AWS access portal session in order for the SDK to use IAM Identity Center authentication to resolve credentials\. Run the following command in the AWS CLI to sign in to the AWS access portal\.
+* goal
+  * active AWS access portal session
+    * uses
+      * 👁️SDK can use IAM Identity Center authentication -- to resolve -- credentials 👁️ 
+* activate AWS access portal session
+    ```
+    aws sso login
+    
+    # if you need to use certain AWS profile
+    aws sso login --profile profileName
+    ```
+  * if you ALREADY have an active AWS access portal session -> 
+    * NOT required to provide credentials
+    * displayed a dialog / -- requests permission for -- `botocore`
+      * `botocore` == foundation for the AWS CLI
+      * select **Allow**
+* test if you ALREADY have an active session
 
-```
-aws sso login
-```
-
-Since you have a default profile setup, you do not need to call the command with a `--profile` option\. If your SSO token provider configuration is using a named profile, the command is `aws sso login --profile named-profile`\.
-
-To test if you already have an active session, run the following AWS CLI command\.
-
-```
-aws sts get-caller-identity
-```
-
-The response to this command should report the IAM Identity Center account and permission set configured in the shared `config` file\.
-
-**Note**  
-If you already have an active AWS access portal session and run `aws sso login`, you will not be required to provide credentials\.   
-However, you will see a dialog that requests permission for `botocore` to access your information\. `botocore` is the foundation for the AWS CLI \.   
-Select **Allow** to authorize access to your information for the AWS CLI and SDK for Java\.
+    ```
+    aws sts get-caller-identity
+    # returns IAM Identity Center account & permission set / configured | "config" 
+    ```
 
 ## Install Java and a build tool<a name="setup-envtools"></a>
 
