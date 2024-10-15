@@ -1,11 +1,20 @@
 # Use temporary credentials<a name="credentials-temporary"></a>
 
-For increased security, AWS recommends that you configure the SDK for Java to [use temporary credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp) instead of long\-lived credentials\. Temporary credentials consist of access keys \(access key id and secret access key\) and a session token\. We recommend that you [configure the SDK](#credentials-temporary-idc) to automatically get temporary credentials, since the token refresh process is automatic\. You can, however, [provide the SDK with temporary credentials](#credentials-temporary-from-portal) directly\.
+* Temporary credentials
+  * == access keys (access key id & secret access key) + session token
+  * ways to configure the SDK 
+    * [automatically](#credentials-temporary-idc)
+      * Reason: 🧠token refresh process is automatic🧠
+    * [provide temporary credentials directly](#credentials-temporary-from-portal)
+  * recommended by AWS
+    * Reason: 🧠for increased security, [better than long-lived credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-users-federation-idp) 🧠
+  
 
 ## IAM Identity Center configuration<a name="credentials-temporary-idc"></a>
 
-When you configure the SDK to use IAM Identity Center single sign\-on access as described in [Basic setup to work with AWS services](setup-basics.md) in this guide, the SDK automatically uses temporary credentials\. 
+* if you [configure the SDK / use IAM Identity Center single sign-on access](setup-basics.md) -> SDK automatically uses temporary credentials 
 
+* TODO:
 The SDK uses the IAM Identity Center access token to gain access to the IAM role that is configured with the `sso_role_name` setting in your `config` file\. The SDK assumes this IAM role and retrieves temporary credentials to use for AWS service requests\.
 
 For more details about how the SDK gets temporary credentials from the configuration, see the [Understanding IAM Identity Center authentication](https://docs.aws.amazon.com/sdkref/latest/guide/understanding-sso.html) section of the AWS SDKs and Tools Reference Guide\.
