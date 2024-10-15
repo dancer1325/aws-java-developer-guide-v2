@@ -1,8 +1,13 @@
 # Provide temporary credentials to the SDK<a name="credentials"></a>
 
-Before making a request to Amazon Web Services using the AWS SDK for Java 2\.x, the SDK cryptographically signs temporary credentials issued by AWS\. To access temporary credentials, the SDK retrieves configuration values by checking several locations\.
-
-This topic discusses several ways that you enable to SDK to access temporary credentials\.
+* == temporary credentials / 
+  * issued by AWS
+  * uses
+    * by SDK, to sign cryptographically 
+* it happens | before making a request to Amazon Web Services
+* how does it work?
+  * SDK retrieves configuration values -- by checking -- several locations
+    * == several ways to enable it
 
 **Topics**
 + [Use temporary credentials](credentials-temporary.md)
