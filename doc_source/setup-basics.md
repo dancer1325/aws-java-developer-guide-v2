@@ -1,5 +1,11 @@
 # Basic setup to work with AWS services<a name="setup-basics"></a>
 
+* requirements for next 
+  * organization uses IAM Identity Center
+    * if your organization uses an external identity provider / independent of IAM Identity Center -> 
+      * [follow these instructions](credentials-temporary.md#credentials-temporary-from-portal)
+      * & temporary credentials are added automatically | `~/.aws/credentials` -> make sure that the profile name is `[default]`
+
 ## Overview<a name="setup-overview"></a>
 
 * 👁️conditions required to successfully develop applications / access AWS services -- via -- AWS SDK for Java 👁️
@@ -22,11 +28,6 @@
           * _Example:_ [AWS Toolkit for IntelliJ](https://docs.aws.amazon.com/toolkit-for-jetbrains/latest/userguide/welcome.html) and [AWS Toolkit for Eclipse](https://docs.aws.amazon.com/toolkit-for-eclipse/v1/user-guide/welcome.html)
   * active AWS access portal session | ready to run your application
     * -- via -- AWS CLI, you [initiate the sign\-in process](#setup-login-sso)
-
-* TODO:
-**Important**  
-The instructions in this setup section assume that you or organization uses IAM Identity Center\. If your organization uses an external identity provider that works independently of IAM Identity Center, find out how you can get temporary credentials for the SDK for Java to use\. Follow [these instructions](credentials-temporary.md#credentials-temporary-from-portal) to add temporary credentials to the `~/.aws/credentials` file\.  
-If your identity provider adds temporary credentials automatically to the `~/.aws/credentials` file, make sure that the profile name is `[default]` so that you do not need to provide a profile name to the SDK or AWS CLI\.
 
 ## Sign\-in ability to the AWS access portal<a name="setup-awsaccount"></a>
 
@@ -91,13 +92,20 @@ If your identity provider adds temporary credentials automatically to the `~/.aw
 
 ## Install Java and a build tool<a name="setup-envtools"></a>
 
-Your development environment needs the following:
-+ Java 8 or later\. The AWS SDK for Java works with the [Oracle Java SE Development Kit](https://www.oracle.com/java/technologies/javase-downloads.html) and with distributions of Open Java Development Kit \(OpenJDK\) such as [Amazon Corretto](http://aws.amazon.com/corretto/), [Red Hat OpenJDK](https://developers.redhat.com/products/openjdk), and [AdoptOpenJDK](https://adoptopenjdk.net/)\.
-+ A build tool or IDE that supports Maven Central such as Apache Maven, Gradle, or IntelliJ\.
-  + For information about how to install and use Maven, see [http://maven\.apache\.org/](http://maven.apache.org/)\.
-  + For information about how to install and use Gradle, see [https://gradle\.org/](https://gradle.org/)\.
-  + For information about how to install and use IntelliJ IDEA, see [https://www\.jetbrains\.com/idea/](https://www.jetbrains.com/idea/)\.
+* Java v8+
+  * allowed
+    * [Oracle Java SE Development Kit](https://www.oracle.com/java/technologies/javase-downloads.html)
+    * distributions of OpenJDK
+      * [Amazon Corretto](http://aws.amazon.com/corretto/),
+      * [Red Hat OpenJDK](https://developers.redhat.com/products/openjdk)
+      * [AdoptOpenJDK](https://adoptopenjdk.net/)\.
+* build tool or IDE / supports Maven Central
+  * [Maven](http://maven.apache.org/)
+  * [Gradle](https://gradle.org/)
+  * [IntelliJ IDEA](https://www.jetbrains.com/idea/)
 
-## Additional authentication options<a name="setup-additional"></a>
+## Additional authentication options for the AWS SDK<a name="setup-additional"></a>
 
-For more options on authentication for the SDK, such as the use of profiles and environment variables, see the [configuration](https://docs.aws.amazon.com/sdkref/latest/guide/creds-config-files.html) chapter in the AWS SDKs and Tools Reference Guide\.
+* check [configuration](https://docs.aws.amazon.com/sdkref/latest/guide/creds-config-files.html)
+  * use of profiles
+  * environment variables
