@@ -12,16 +12,25 @@
 
 ## IAM Identity Center configuration<a name="credentials-temporary-idc"></a>
 
-* if you [configure the SDK / use IAM Identity Center single sign-on access](setup-basics.md) -> SDK automatically uses temporary credentials 
+* if you [configure the SDK / use IAM Identity Center single sign-on access](setup-basics.md)
+  * -> SDK automatically uses temporary credentials
+    * how does it work?
+      * SDK -- via the IAM Identity Center access token, gain access to the -- IAM role / is configured with the `sso_role_name` | your `config` 
+      * SDK 
+        * assumes this IAM role
+        * -- retrieves -- temporary credentials 
+  * [Understanding IAM Identity Center authentication](https://docs.aws.amazon.com/sdkref/latest/guide/understanding-sso.html)
 
-* TODO:
-The SDK uses the IAM Identity Center access token to gain access to the IAM role that is configured with the `sso_role_name` setting in your `config` file\. The SDK assumes this IAM role and retrieves temporary credentials to use for AWS service requests\.
-
-For more details about how the SDK gets temporary credentials from the configuration, see the [Understanding IAM Identity Center authentication](https://docs.aws.amazon.com/sdkref/latest/guide/understanding-sso.html) section of the AWS SDKs and Tools Reference Guide\.
 
 ## Retrieve from AWS access portal<a name="credentials-temporary-from-portal"></a>
 
-As an alternative to IAM Identity Center single sign\-on configuration, you can copy and use temporary credentials available in the AWS access portal\. You can use the temporary credentials in a profile or use them as values for system properties and environment variables\.
+* copy and use temporary credentials / available | AWS access portal
+  * use as
+    * "config"'s profile
+    * system properties
+    * environment variables
+  * 👁️alternative to IAM Identity Center single sign\-on configuration👁️
+* TODO:
 
 **Set up a local credentials file for temporary credentials**
 
